@@ -1,8 +1,11 @@
+import { Outlet } from "react-router-dom";
+import NavBar from "../Shared/NavBar";
 
 const Root = () => {
     return (
-        <div>
-            
+        <div className="font-raleway">
+            <NavBar></NavBar>
+            <Outlet></Outlet>
         </div>
     );
 };
