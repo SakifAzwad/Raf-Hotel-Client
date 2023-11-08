@@ -1,4 +1,76 @@
+/* eslint-disable no-unused-vars */
+import { useContext, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { AuthCon } from "../Provider/AuthProv";
+import swal from "sweetalert";
+import { updateProfile } from "firebase/auth";
+
 const SignUp = () => {
+
+
+ const { createUser } = useContext(AuthCon);
+  const navigate = useNavigate();
+  const location1 = useLocation();
+  const [registerError, setRegisterError] = useState("");
+
+  const hanreg = (e) => {
+    e.preventDefault();
+    const form = new FormData(e.currentTarget);
+    const name = form.get("name");
+    const URL = form.get("photo");
+    const email = form.get("email");
+    const password = form.get("password");
+
+    if (password.length < 6) {
+      setRegisterError("Password must be at least 6 characters long.");
+      return;
+    }
+    if (!/[A-Z]/.test(password)) {
+      setRegisterError("Password must include at least one uppercase letter.");
+      return;
+    }
+    if (!/[@$!%*?&]/.test(password)) {
+      setRegisterError(
+        "Password must include at least one special character (e.g., @$!%*?&)."
+      );
+      return;
+    }
+
+    createUser(email, password)
+      .then((result) => {
+        updateProfile(result.user, {
+          displayName: name,
+          photoURL: URL,
+        })
+          .then(() => {
+            const p = result.user.displayName;
+
+            swal(
+              `Welcome ${p}!`,
+              `You've successfully registered to Raf Events.`,
+              "success"
+            );
+          })
+          .catch((error) => {
+            setRegisterError(error.message);
+          });
+        setTimeout(() => {
+          window.location.reload();
+        }, 2500);
+        navigate(location1?.state ? location1.state : "/");
+      })
+      .catch((error) => {
+        setRegisterError(error.message);
+      });
+
+    e.target.name.value = "";
+    e.target.photo.value = "";
+    e.target.email.value = "";
+    e.target.password.value = "";
+  };
+
+
+
   return (
     <div className="relative">
       <div
@@ -23,7 +95,7 @@ const SignUp = () => {
                   </h1>
                 </div>
                 <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-col4 bg-opacity-70">
-                  <form className="card-body">
+                  <form onSubmit={hanreg} className="card-body">
                     <div className="form-control">
                       <label className="label">
                         <span className="label-text text-col0">Name</span>
@@ -78,6 +150,12 @@ const SignUp = () => {
                       </button>
                     </div>
                   </form>
+                  <p className="text-center pb-4 w-full text-col0">
+                    Already have an account?{"  "} 
+                    <Link className="text-col5 w-full font-extrabold" to="/login">
+                        Login
+                    </Link>
+                  </p>
                 </div>
               </div>
             </div>

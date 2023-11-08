@@ -1,7 +1,15 @@
 import { Link, NavLink } from "react-router-dom";
 import "./Navbar.css";
+import { useContext } from "react";
+import { AuthCon } from "../Provider/AuthProv";
 
 const NavBar = () => {
+  const { user, logOut } = useContext(AuthCon);
+
+  const hanlogout = () => {
+    logOut().then().catch();
+  };
+
   return (
     <div>
       <div className="flex justify-center bg-[#FAF6F1]">
@@ -48,16 +56,53 @@ const NavBar = () => {
             </li>
           </ul>
         </div>
-        <div className="lg:w-1/3 mb-2 flex lg:justify-end justify-center items-center pr-4 ">
+        <div className="lg:w-1/3 space-x-4 mb-2 flex lg:justify-end justify-center items-center pr-4 ">
+        {user ? (
+              <>
+                
+                <div className="md:flex md:space-x-3">
+                  <label
+                    tabIndex={0}
+                    className="btn btn-ghost btn-circle avatar"
+                  >
+                    
+                    <div className="w-10 rounded-full">
+                      <img src={user.photoURL} />
+                    </div>
+                  </label>
+                  <h1 className="flex lg:items-center text-col0">
+                    {user.displayName}
+                  </h1>
+                </div>
+              </>
+            ) : (
+              <></>
+            )}
           <div className="">
-           <Link to='/signup'>
-           <button className="mr-4 border border-col0 hover:border-col5 rounded h-10 w-32 mt-2  text-lg font-light  bg-transparent text-col0 hover:text-col5 hover:font-bold">
-              Sign Up
-            </button>
-           </Link>
-            <Link to='/login'>
-            <button className="border border-col0 hover:border-col5 rounded h-10 w-32 mt-2  text-lg font-light  bg-transparent text-col0 hover:text-col5 hover:font-bold">Login</button>
+          {user ? (
+                <>
+                  <button
+                    onClick={hanlogout}
+                    className="mr-4 border border-col0 hover:border-col5 rounded h-10 w-32 mt-2  text-lg font-light  bg-transparent text-col0 hover:text-col5 hover:font-bold"
+                  >
+                    Log Out
+                  </button>
+                </>
+              ) : (
+                <>
+                 <Link to="/signup">
+              <button className="mr-4 border border-col0 hover:border-col5 rounded h-10 w-32 mt-2  text-lg font-light  bg-transparent text-col0 hover:text-col5 hover:font-bold">
+                Sign Up
+              </button>
             </Link>
+            <Link to="/login">
+              <button className="border border-col0 hover:border-col5 rounded h-10 w-32 mt-2  text-lg font-light  bg-transparent text-col0 hover:text-col5 hover:font-bold">
+                Login
+              </button>
+            </Link>
+                </>
+              )}
+            
           </div>
         </div>
       </div>

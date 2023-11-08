@@ -13,6 +13,8 @@ import SignUp from './components/SignUp/SignUp';
 import Rooms from './components/Rooms/Rooms';
 import AboutUs from './components/AboutUs';
 import MyBookings from './components/MyBookings/MyBookings';
+import AuthProv from './components/Provider/AuthProv';
+import PrivateRoute from './Private/PrivateRoute';
 
 const router = createBrowserRouter([
   {
@@ -27,10 +29,12 @@ const router = createBrowserRouter([
       {
         path:"/rooms",
         element:<Rooms></Rooms>,
+        loader :()=>fetch('http://localhost:5000/rooms')
+
       },
       {
         path:"/mybookings",
-        element:<MyBookings></MyBookings>
+        element:<PrivateRoute><MyBookings></MyBookings></PrivateRoute>
       },
       {
         path:"/aboutus",
@@ -51,6 +55,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
+    <AuthProv>
     <RouterProvider router={router} />
+    </AuthProv>
   </React.StrictMode>,
 )
