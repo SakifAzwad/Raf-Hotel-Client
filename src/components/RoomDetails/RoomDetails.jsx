@@ -1,8 +1,10 @@
 /* eslint-disable no-unused-vars */
 import { useLoaderData } from "react-router-dom";
 import DatePicker from "react-datepicker";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
+import Swal from "sweetalert2";
+import { AuthCon } from "../Provider/AuthProv";
 const RoomDetails = () => {
   const rm = useLoaderData();
   const [rooom, setroom] = useState(rm);
@@ -11,7 +13,7 @@ const RoomDetails = () => {
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
-  
+  const { user } = useContext(AuthCon);
   const {
     room,
     description,
@@ -23,11 +25,36 @@ const RoomDetails = () => {
     specialOffers,
     shortdescription
   } = rm;
+  
 
   const handleBookRoom = () => {
 
-    
-    
+    const datas = {
+        email:user.email,
+        room:room,
+        bookingDate:selectedDate.toLocaleDateString('en-GB'),
+        price:pricePerNight
+    };
+    fetch('http://localhost:5000/bookings', {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify(datas),
+      })
+      .then(res=>res.json())
+      .then(data=>
+        {
+          console.log(data);
+          if(data.insertedId)
+          {
+            Swal.fire(
+              'Good job!',
+              'Product Added to your Cart',
+              'success'
+            )
+          }
+        })
   };
 
   return (
