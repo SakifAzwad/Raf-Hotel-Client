@@ -60,7 +60,7 @@ const Rooms = () => {
           </div>
         </div>
         <div>
-          <h1 className="text-center text-4xl px-60 py-12 bg-col0">
+          <h1 className="text-center text-4xl px-60 py-12 font-bold bg-col0 text-col5">
             Explore our range of beautifully appointed rooms and suites that
             cater to your every need.
           </h1>
