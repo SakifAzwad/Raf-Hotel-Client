@@ -1,8 +1,13 @@
 /* eslint-disable no-unused-vars */
 import { useLoaderData } from "react-router-dom";
-
+import DatePicker from "react-datepicker";
+import { useState } from "react";
+import "react-datepicker/dist/react-datepicker.css";
 const RoomDetails = () => {
-  const rooom = useLoaderData();
+  const rm = useLoaderData();
+  const [rooom,setroom]=useState(rm);
+  const [startDate, setStartDate] = useState(new Date());
+  const today = new Date();
   const {
     room,
     description,
@@ -12,7 +17,7 @@ const RoomDetails = () => {
     mainImage,
     images,
     specialOffers,
-  } = rooom;
+  } = rm;
 
   return (
     <div className="relative">
@@ -46,10 +51,22 @@ const RoomDetails = () => {
                 {specialOffers &&
                   specialOffers?.map((offer, offerIndex) => (
                     <div key={offerIndex}>
-                      <p className="text-left">{offerIndex+1}) {offer.description}</p>
+                      <p className="text-left">
+                        {offerIndex + 1}) {offer.description}
+                      </p>
                     </div>
                   ))}
+                  <p className="border-t-2 py-2">Booking Date :</p>
+                  <div className="pb-2 text-black font-bold"> 
 
+                    <DatePicker
+                     dateFormat="dd MMMM yyyy" 
+                  selected={startDate}
+                  minDate={today} 
+                  onChange={(date) => setStartDate(date)}
+                />
+                  </div>
+                
                 <div className="card-actions justify-center border-t-2">
                   <button className="    rounded h-10 w-32 mt-2  text-lg font-bold bg-col5 text-col0 hover:text-col5 hover:bg-col0  ">
                     Book
@@ -61,22 +78,25 @@ const RoomDetails = () => {
           </div>
         </div>
       </div>
-      <div className="bg-col0"> 
+      <div className="bg-col0">
         <h1 className="text-center font-bold text-5xl text-col5 py-12 bg-col0">
           Discover Our Rooms Through Captivating Images
         </h1>
         <div className="grid lg:grid-cols-3 grid-cols-1 w-4/5 gap-8 mx-auto pb-16">
-        {images &&
-          images?.map((image, imageIndex) => (
-            <div key={imageIndex} className="card w-full  shadow-xl">
-              <figure>
-                {" "}
-                <img className="h-60 w-full rounded-lg" key={imageIndex} src={image} />
-              </figure>
-            </div>
-          ))}
-          </div>
-        
+          {images &&
+            images?.map((image, imageIndex) => (
+              <div key={imageIndex} className="card w-full  shadow-xl">
+                <figure>
+                  {" "}
+                  <img
+                    className="h-60 w-full rounded-lg"
+                    key={imageIndex}
+                    src={image}
+                  />
+                </figure>
+              </div>
+            ))}
+        </div>
       </div>
     </div>
   );
