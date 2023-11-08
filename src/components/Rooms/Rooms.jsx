@@ -1,9 +1,36 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable no-unused-vars */
 import { useLoaderData } from "react-router-dom";
+import Room from "./Room";
+import { useState } from "react";
 
 const Rooms = () => {
   const rooms = useLoaderData();
+  const [minPrice, setMinPrice] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(1000);
+  const [filteredRooms, setFilteredRooms] = useState(rooms);
+
+  const handlePriceRangeChange = () => {
+    // if(isNaN(minPrice))setMinPrice(0);
+    // if(isNaN(maxPrice))setMaxPrice(1000);
+    const min = parseInt(minPrice);
+    const max = parseInt(maxPrice);
+
+    if (!isNaN(min) && !isNaN(max)) 
+    {
+        const filtered = rooms.filter(
+            (room) => room.pricePerNight >= minPrice && room.pricePerNight <= maxPrice
+          );
+         setFilteredRooms(filtered); 
+    }
+    else{
+        setFilteredRooms(rooms); 
+    }
+
+    
+  };
+
+
   return (
     <div>
       <div className="relative">
@@ -33,26 +60,38 @@ const Rooms = () => {
           </div>
         </div>
         <div>
-          <h1 className="text-center text-4xl px-60 py-12">
+          <h1 className="text-center text-4xl px-60 py-12 bg-col0">
             Explore our range of beautifully appointed rooms and suites that
             cater to your every need.
           </h1>
+
+          <div className="text-center bg-col0">
+            <label className="text-lg flex justify-center items-center">
+              <h1 className="mr-4">Price Range :</h1>
+              <input
+              className="border border-col5 rounded mr-2 h-10"
+                type="number"
+                placeholder="Min Price"
+                  value={minPrice}
+                  onChange={(e) => setMinPrice(parseInt(e.target.value))}
+              />
+              <input
+                type="number"
+                className="border border-col5 rounded mr-2 h-10"
+                placeholder="Max Price"
+                  value={maxPrice}
+                  onChange={(e) => setMaxPrice(parseInt(e.target.value))}
+              />
+              <button onClick={handlePriceRangeChange} className="border border-col5  rounded h-10 w-32 text-lg font-bold   text-col5  ">Apply</button>
+            </label>
+          </div>
         </div>
         <div className="bg-col0">
-          <div className="card lg:card-side bg-base-100 shadow-xl">
-            <figure>
-              <img
-                src="/images/stock/photo-1494232410401-ad00d5433cfa.jpg"
-                alt="Album"
-              />
-            </figure>
-            <div className="card-body">
-              <h2 className="card-title">New album is released!</h2>
-              <p>Click the button to listen on Spotiwhy app.</p>
-              <div className="card-actions justify-end">
-                <button className="btn btn-primary">Listen</button>
-              </div>
-            </div>
+          <div className="grid lg:grid-cols-2 grid-cols-1 w-4/5 gap-8 mx-auto py-16">
+            {filteredRooms &&
+              filteredRooms?.map((rooom) => (
+                <Room key={rooom._id} rooom={rooom}></Room>
+              ))}
           </div>
         </div>
       </div>
