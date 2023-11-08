@@ -15,6 +15,7 @@ import AboutUs from './components/AboutUs';
 import MyBookings from './components/MyBookings/MyBookings';
 import AuthProv from './components/Provider/AuthProv';
 import PrivateRoute from './Private/PrivateRoute';
+import RoomDetails from './components/RoomDetails/RoomDetails';
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,12 @@ const router = createBrowserRouter([
         path:"/rooms",
         element:<Rooms></Rooms>,
         loader :()=>fetch('http://localhost:5000/rooms')
+
+      },
+      {
+        path:"/rooms/:id",
+        element:<RoomDetails></RoomDetails>,
+        loader :({params})=>fetch(`http://localhost:5000/rooms/${params.id}`)
 
       },
       {
