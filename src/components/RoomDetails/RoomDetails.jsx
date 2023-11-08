@@ -5,9 +5,13 @@ import { useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 const RoomDetails = () => {
   const rm = useLoaderData();
-  const [rooom,setroom]=useState(rm);
-  const [startDate, setStartDate] = useState(new Date());
+  const [rooom, setroom] = useState(rm);
   const today = new Date();
+  const [selectedDate, setSelectedDate] = useState(today);
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
+  
   const {
     room,
     description,
@@ -17,7 +21,14 @@ const RoomDetails = () => {
     mainImage,
     images,
     specialOffers,
+    shortdescription
   } = rm;
+
+  const handleBookRoom = () => {
+
+    
+    
+  };
 
   return (
     <div className="relative">
@@ -56,21 +67,47 @@ const RoomDetails = () => {
                       </p>
                     </div>
                   ))}
-                  <p className="border-t-2 py-2">Booking Date :</p>
-                  <div className="pb-2 text-black font-bold"> 
+                <p className="border-t-2 py-2">Booking Date :</p>
+                <div className="pb-2 text-black font-bold">
+                  <DatePicker
+                    dateFormat="dd/MM/yyyy"
+                    selected={selectedDate}
+                    minDate={today}
+                    onChange={handleDateChange}
+    
+                  />
+                </div>
 
-                    <DatePicker
-                     dateFormat="dd MMMM yyyy" 
-                  selected={startDate}
-                  minDate={today} 
-                  onChange={(date) => setStartDate(date)}
-                />
-                  </div>
-                
                 <div className="card-actions justify-center border-t-2">
-                  <button className="    rounded h-10 w-32 mt-2  text-lg font-bold bg-col5 text-col0 hover:text-col5 hover:bg-col0  ">
+                  <button
+                    onClick={() =>
+                      document.getElementById("my_modal_5").showModal()
+                    }
+                    className="    rounded h-10 w-32 mt-2  text-lg font-bold bg-col5 text-col0 hover:text-col5 hover:bg-col0  "
+                  >
                     Book
                   </button>
+                  <dialog
+                    id="my_modal_5"
+                    className="modal text-black modal-bottom sm:modal-middle"
+                  >
+                    <div className="modal-box">
+                      <h3 className="font-bold text-lg">{room}</h3>
+                      <h1>Date : {selectedDate.toLocaleDateString('en-GB')}</h1>
+                      <p className="py-4">
+                        {shortdescription}
+                      </p>
+                      <p className="font-bold">Price : {pricePerNight}$</p>
+                      <div className="modal-action justify-center">
+                        <form method="dialog">
+                          {/* if there is a button in form, it will close the modal */}
+                          
+                          <button onClick={handleBookRoom} className="btn border border-col5 hover:border-col5 rounded h-10 w-32 mt-2 mr-4 text-lg font-bold bg-col5 text-col0 hover:text-col5 hover:bg-col0 ">Confirm</button>
+                          <button className="btn border border-col5 hover:border-col5  rounded h-10 w-32 mt-2  text-lg font-bold bg-col5 text-col0 hover:text-col5 hover:bg-col0 ">Cancel</button>
+                        </form>
+                      </div>
+                    </div>
+                  </dialog>
                 </div>
               </div>
             </div>
