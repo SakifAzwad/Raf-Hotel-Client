@@ -37,7 +37,7 @@ const ShowMyBookings = ({ pro, alldata, setalldata }) => {
             availability,
           };
           console.log(newdata);
-          fetch(`http://localhost:5000/rooms/${roomID}`, {
+          fetch(`https://raf-hotel-server.vercel.app/rooms/${roomID}`, {
             method: "PUT",
             headers: {
               "content-type": "application/json",
@@ -47,7 +47,7 @@ const ShowMyBookings = ({ pro, alldata, setalldata }) => {
             .then((res) => res.json())
             .then((data) => {});
 
-          fetch(`http://localhost:5000/bookings/${_id}`, {
+          fetch(`https://raf-hotel-server.vercel.app/bookings/${_id}`, {
             method: "DELETE",
           })
             .then((res) => res.json())

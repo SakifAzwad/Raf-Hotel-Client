@@ -38,7 +38,7 @@ const Reviews = () => {
       const newReview = { usr,room, rating, comment, timestamp };
   
       // Update reviews state with the new review
-      fetch("http://localhost:5000/reviews", {
+      fetch("https://raf-hotel-server.vercel.app/reviews", {
         method: "POST",
         headers: {
           "content-type": "application/json",

@@ -77,7 +77,7 @@ const SignUp = () => {
         className="hero min-h-screen"
         style={{
           backgroundImage:
-            "url(https://daisyui.com/images/stock/photo-1507358522600-9f71e620c44e.jpg)",
+            "url(https://i.ibb.co/h7szKJt/2.jpg)",
         }}
       >
         <div className="hero-overlay bg-opacity-60"></div>

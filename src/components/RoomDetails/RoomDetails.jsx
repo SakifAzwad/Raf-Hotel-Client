@@ -34,7 +34,7 @@ const RoomDetails = () => {
   const [rev,setrev]=useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/reviews")
+    fetch("https://raf-hotel-server.vercel.app/reviews")
       .then((res) => res.json())
       .then((data) => {
         setrev(data);
@@ -45,7 +45,7 @@ const RoomDetails = () => {
 
 
   useEffect(() => {
-    fetch("http://localhost:5000/bookings")
+    fetch("https://raf-hotel-server.vercel.app/bookings")
       .then((res) => res.json())
       .then((data) => {
         setbookings(data);
@@ -95,7 +95,7 @@ let [av,setav]=useState(availability);
           availability,
         };
         console.log(newdata);
-        fetch(`http://localhost:5000/rooms/${_id}`, {
+        fetch(`https://raf-hotel-server.vercel.app/rooms/${_id}`, {
           method: "PUT",
           headers: {
             "content-type": "application/json",
@@ -108,7 +108,7 @@ let [av,setav]=useState(availability);
             setroom(data);
           });
 
-        fetch("http://localhost:5000/bookings", {
+        fetch("https://raf-hotel-server.vercel.app/bookings", {
           method: "POST",
           headers: {
             "content-type": "application/json",

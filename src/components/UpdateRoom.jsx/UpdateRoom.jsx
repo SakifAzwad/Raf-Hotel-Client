@@ -15,7 +15,7 @@ const UpdateRoom = () => {
     const [bookings, setbookings] = useState([]);
   
     useEffect(() => {
-      fetch("http://localhost:5000/bookings")
+      fetch("https://raf-hotel-server.vercel.app/bookings")
         .then((res) => res.json())
         .then((data) => {
           setbookings(data);
@@ -43,7 +43,7 @@ const UpdateRoom = () => {
         const datas = {
             bookingDate: selectedDate.toLocaleDateString("en-GB"),
           };
-          fetch(`http://localhost:5000/bookings/${_id}`, {
+          fetch(`https://raf-hotel-server.vercel.app/bookings/${_id}`, {
             method: "PUT",
             headers: {
               "content-type": "application/json",
