@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import { useContext } from "react";
 import AwesomeSlider from "react-awesome-slider";
@@ -7,19 +8,33 @@ import { Parallax } from "react-parallax";
 import { Link, useLoaderData } from "react-router-dom";
 import { AuthCon } from "../Provider/AuthProv";
 import './Home.css';
-import Reviews from "../Reviews/Reviews";
+import Marquee from "react-fast-marquee";
+import Room from "../Rooms/Room";
+import Room2 from "./Room2";
+
 
 const AutoplaySlider = withAutoplay(AwesomeSlider);
 
 const Home = () => {
 
-    
+    const StarRating = ({ rating }) => {
+        const stars = Array.from({ length: 5 }, (_, index) => (
+          <span
+            key={index}
+            className={`text-2xl ${index < rating ? 'text-yellow-500' : 'text-gray-300'}`}
+          >
+            ★
+          </span>
+        ));
+      
+        return <div className="flex ">{stars}</div>;
+      };
 
   const {user}=useContext(AuthCon);
 
-  const {rooms}=useLoaderData();
+  const roms=useLoaderData();
 
-
+  const rooms = roms.filter((item, index) => index < 3);
   const slider = (
     <AutoplaySlider
       className="h-full"
@@ -153,8 +168,84 @@ const Home = () => {
         </div>
       </div>
     </Parallax>
-    <div>
+    <div className="bg-col0">
+        <h1 className="text-center font-bold text-5xl text-col5 py-12 bg-col0">
+          Featured Rooms
+        </h1>
+        <div className="grid lg:grid-cols-3 grid-cols-1 w-4/5 gap-8 mx-auto py-16">
+            
+            {
+            rooms &&
+              rooms?.map((rooom,index) => 
+              
+                // if(index>3)return;
+                (
+                    <Room2 key={rooom._id} rooom={rooom}></Room2>
+                )
+              )}
+          </div>
+    </div>
+    
+
+    <div className="bg-col0">
+    <h1 className="text-center font-bold text-5xl text-col5 py-12 bg-col0">
+          Testimonials
+        </h1>
         
+       <div className="mx-96">
+       <Marquee className="px-12" speed={100} >
+        <div className="card w-1/2  shadow-xl bg-white">
+                <div className="p-4">
+                <h1>Incredible ambiance! Raf Hotel combines comfort and style effortlessly. The attention to detail and friendly staff make it exceptional.</h1>
+                </div>
+                <div className="mx-auto">
+                <StarRating rating={4} />
+                </div>
+                <div>
+                    <h1 className="pl-4">{"Sakif Azwad"}</h1>
+                </div>
+            
+              </div>
+        <div className="card w-1/2  shadow-xl bg-white">
+                <div className="p-4">
+                <h1>Outstanding hospitality! From the elegant decor to the courteous staff, Raf Hotel provides a delightful and comfortable stay.</h1>
+                </div>
+                <div className="mx-auto">
+                <StarRating rating={4} />
+                </div>
+                <div>
+                    <h1 className="pl-4">{"Sakif Azwad"}</h1>
+                </div>
+            
+              </div>
+        <div className="card w-1/2  shadow-xl bg-white">
+                <div className="p-4">
+                <h1>Incredible ambiance! Raf Hotel combines comfort and style effortlessly. The attention to detail and friendly staff make it exceptional.</h1>
+                </div>
+                <div className="mx-auto">
+                <StarRating rating={4} />
+                </div>
+                <div>
+                    <h1 className="pl-4">{"Sakif Azwad"}</h1>
+                </div>
+            
+              </div>
+        <div className="card w-1/2  shadow-xl bg-white">
+                <div className="p-4">
+                <h1>Raf Hotel exceeded expectations! Modern facilities, impeccable cleanliness, and a welcoming atmosphere. A must-visit for travelers.</h1>
+                </div>
+                <div className="mx-auto">
+                <StarRating rating={4} />
+                </div>
+                <div>
+                    <h1 className="pl-4">{"Saniad Faruqe"}</h1>
+                </div>
+            
+              </div>
+
+        </Marquee>
+       </div>
+
     </div>
     <div className="">
     <div className='w-full py-16 text-col5 bg-col0 px-4'>
