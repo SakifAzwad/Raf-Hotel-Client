@@ -64,7 +64,7 @@ const Reviews = () => {
     
     return (
         <div className="relative" >
-            <div className="hero min-h-screen" style={{backgroundImage: `url(${images[0]})`}}>
+            <div className="hero min-h-screen lg:pt-0 md:pt-40 pt-60" style={{backgroundImage: `url(${images[0]})`}}>
   <div className="hero-overlay bg-opacity-60"></div>
   <div className="hero-content text-center text-neutral-content flex-col">
    <div>

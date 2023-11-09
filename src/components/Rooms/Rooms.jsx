@@ -34,7 +34,7 @@ const Rooms = () => {
   return (
     <div>
       <div className="relative">
-        <div className="w-full h-full">
+        <div className="w-full h-full lg:pt-0 md:pt-40 pt-60">
           <div
             className="hero min-h-screen h-full"
             style={{
@@ -44,10 +44,10 @@ const Rooms = () => {
             <div className="hero-overlay bg-opacity-60"></div>
             <div className="hero-content text-center text-neutral-content">
               <div className="">
-                <h1 className="mb-5 text-5xl text-col0 font-bold">
+                <h1 className="mb-5 md:text-3xl lg:text-5xl text-col0 font-bold">
                   Discover Your Perfect Retreat at Raf Hotel
                 </h1>
-                <p className="mb-5 text-col0 text-2xl">
+                <p className="mb-5 text-col0 lg:text-2xl">
                   Welcome to Raf Hotel's exquisite collection of rooms and
                   suites. Our accommodations are thoughtfully designed to
                   provide the perfect blend of luxury, comfort, and style. Each
@@ -60,13 +60,13 @@ const Rooms = () => {
           </div>
         </div>
         <div>
-          <h1 className="text-center text-4xl px-60 py-12 font-bold bg-col0 text-col5">
+          <h1 className="text-center text-4xl lg:px-60 py-12 font-bold bg-col0 text-col5">
             Explore our range of beautifully appointed rooms and suites that
             cater to your every need.
           </h1>
 
           <div className="text-center bg-col0">
-            <label className="text-lg flex justify-center items-center">
+            <label className="text-lg md:flex  justify-center items-center">
               <h1 className="mr-4">Price Range :</h1>
               <input
               className="border border-col5 rounded mr-2 h-10"

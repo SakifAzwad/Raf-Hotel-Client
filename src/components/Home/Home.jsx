@@ -37,7 +37,7 @@ const Home = () => {
   const rooms = roms.filter((item, index) => index < 3);
   const slider = (
     <AutoplaySlider
-      className="h-full"
+      className="h-full pt-1"
       play={true}
       cancelOnInteraction={false} // should stop playing on user interaction
       interval={2000}
@@ -52,10 +52,10 @@ const Home = () => {
           <div className="hero-overlay bg-opacity-60"></div>
           <div className="hero-content text-center text-neutral-content">
             <div className="">
-              <h1 className="mb-5 text-5xl text-col0 font-bold">
+              <h1 className="md:mb-5 text-xl md:text-3xl lg:text-5xl text-col0 font-bold">
                 Discover Your Perfect Retreat at Raf Hotel
               </h1>
-              <p className="mb-5 text-xl">
+              <p className="md:mb-5 lg:text-2xl md:text-lg text-sm">
               Raf Hotel invites you to a realm of refined luxury. Immerse yourself in a haven of comfort, where every moment is crafted for a sophisticated and unforgettable experience. Welcome.
               </p>
             </div>
@@ -72,10 +72,10 @@ const Home = () => {
           <div className="hero-overlay bg-opacity-60"></div>
           <div className="hero-content text-center text-neutral-content">
             <div className="">
-              <h1 className="mb-5 text-5xl text-col0 font-bold">
+              <h1 className="md:mb-5 text-xl md:text-3xl lg:text-5xl text-col0 font-bold">
               Embrace sophistication, indulge in comfort. Your perfect getaway starts here!
               </h1>
-              <p className="mb-5">
+              <p className="md:mb-5 lg:text-2xl md:text-lg text-sm">
               Welcome to Raf Hotel, where sophistication meets warmth. Experience unparalleled hospitality and modern comfort. Your journey begins in a haven of tranquility, curated for an unforgettable stay.
               </p>
             </div>
@@ -92,10 +92,10 @@ const Home = () => {
           <div className="hero-overlay bg-opacity-60"></div>
           <div className="hero-content text-center text-neutral-content">
             <div className="">
-              <h1 className="mb-5 text-5xl text-col0 font-bold">
+              <h1 className="md:mb-5 text-xl md:text-3xl lg:text-5xl text-col0 font-bold">
               Stay in Style at Raf Hotel: Unwind in opulent rooms, savor exquisite cuisine, and make every moment extraordinary
               </h1>
-              <p className="mb-5">
+              <p className="md:mb-5 lg:text-2xl md:text-lg text-sm">
               Discover Raf Hotel, a sanctuary of elegance and comfort. Immerse yourself in unparalleled luxury, where every detail is designed to elevate your stay. Welcome to a world of refined indulgence.
               </p>
             </div>
@@ -107,13 +107,13 @@ const Home = () => {
 
   return (
     <div className="relative">
-      <div className="pb-12 bg-col0">{slider}</div>
+      <div className="pb-12 lg:pt-0 pt-40 bg-col0">{slider}</div>
 
-      <div className="bg-col0 flex">
-        <div className="w-1/2">
+      <div className="bg-col0 lg:flex ">
+        <div className="lg:w-1/2">
           <h1 className="text-center text-3xl pt-20">Weekend Escape Package</h1>
 
-          <h1 className="text-center mx-auto w-1/3 text-lg pt-4">
+          <h1 className="text-center md:mx-auto md:w-1/3 text-lg pt-4">
             Enjoy a relaxing weekend getaway with special rates, complimentary
             breakfast, and a late checkout
           </h1>
@@ -121,29 +121,29 @@ const Home = () => {
           Enjoy a 20% discount on weekend getaways! 
           </h1>
         </div>
-        <div  className="w-1/2 p-20">
+        <div  className="lg:w-1/2 md:p-20 p-10">
             <img className="rounded-xl" src="https://i.ibb.co/rdfPgHh/deluxe-twin-4.jpg" alt="" />
         </div>
       </div>
-      <div className="bg-col0 flex flex-row-reverse">
-        <div className="w-1/2">
+      <div className="bg-col0 lg:flex lg:flex-row-reverse">
+        <div className="lg:w-1/2">
           <h1 className="text-center text-3xl pt-20">Family Fun Deal</h1>
 
-          <h1 className="text-center mx-auto w-1/3 text-lg pt-4">
+          <h1 className="text-center md:mx-auto md:w-1/3 text-lg pt-4">
           Treat the family to a memorable stay! Kids stay and eat free, plus enjoy family-friendly activities and amenities
           </h1>
-          <h1 className="text-center text-3xl pt-12 mx-12">
+          <h1 className="text-center text-3xl pt-12 md:mx-12">
           Enjoy a 25% discount on family-friendly activities and amenities.
           </h1>
         </div>
-        <div className="w-1/2 p-20">
+        <div className="lg:w-1/2 md:p-20 p-10">
             <img className="rounded-xl" src="https://i.ibb.co/djj65kL/3.jpg" alt="" />
         </div>
       </div>
       <Parallax  bgImage="https://i.ibb.co/HYrw9Bw/4.jpg" strength={1000}>
       <div className="bg-black bg-opacity-60" style={{ height: '500px' }}>
         <div className="content ">
-          <h1 className="text-center text-5xl pt-24 text-col5 font-bold mx-40">Embrace sophistication, indulge in comfort. Your perfect getaway starts here!Elevate your stay with unparalleled service and modern amenities. Book your retreat now!</h1>
+          <h1 className="text-center lg:text-5xl md:text-3xl text-xl pt-24 text-col5 font-bold lg:mx-40">Embrace sophistication, indulge in comfort. Your perfect getaway starts here!Elevate your stay with unparalleled service and modern amenities. Book your retreat now!</h1>
         </div>
         <div className="flex justify-center">
             {
@@ -192,7 +192,7 @@ const Home = () => {
           Testimonials
         </h1>
         
-       <div className="mx-96">
+       <div className="lg:mx-96">
        <Marquee className="px-12" speed={100} >
         <div className="card w-1/2  shadow-xl bg-white">
                 <div className="p-4">

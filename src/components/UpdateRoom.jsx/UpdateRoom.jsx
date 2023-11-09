@@ -65,17 +65,17 @@ const UpdateRoom = () => {
     return (
       <div className="relative">
         <div
-          className="hero min-h-screen"
+          className="hero min-h-screen lg:pt-0 md:pt-40 pt-60"
           style={{ backgroundImage: `url(${mainImage}})` }}
         >
           <div className="hero-overlay bg-opacity-80"></div>
-          <div className="flex pt-20 pb-20">
-            <div className="w-2/3">
-              <img className=" px-40" src={mainImage} alt="" />
+          <div className="lg:flex pt-20 pb-20">
+            <div className="lg:w-2/3">
+              <img className=" lg:last:px-40" src={mainImage} alt="" />
               
             </div>
-            <div className="w-1/3">
-              <div className="card w-96 bg-col4 bg-opacity-50 shadow-xl">
+            <div className="lg:w-1/3">
+              <div className="card w-96 lg:ml-0 ml-5 md:ml-48 bg-col4 bg-opacity-50 shadow-xl">
                 <div className="card-body text-center text-lg text-col0">
                   <h2 className="text-4xl text-center font-bold ">{room}</h2>
                   <p className="border-t-2 py-2">New Booking Date :</p>
