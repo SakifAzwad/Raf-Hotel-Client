@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import { useLoaderData } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
@@ -10,20 +11,6 @@ const RoomDetails = () => {
   const [rooom, setroom] = useState(rm);
   const today = new Date();
   const [selectedDate, setSelectedDate] = useState(today);
-
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
-  };
-
-  const [bookings, setbookings] = useState([]);
-
-  useEffect(() => {
-    fetch("http://localhost:5000/bookings")
-      .then((res) => res.json())
-      .then((data) => {
-        setbookings(data);
-      });
-  }, []);
   const { user } = useContext(AuthCon);
   let {
     _id,
@@ -37,6 +24,33 @@ const RoomDetails = () => {
     specialOffers,
     shortdescription,
   } = rm;
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
+
+  const [bookings, setbookings] = useState([]);
+
+  const [rev,setrev]=useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:5000/reviews")
+      .then((res) => res.json())
+      .then((data) => {
+        setrev(data);
+      });
+  }, []);
+
+  const xs=rev.filter((x)=>x.room===room);
+
+
+  useEffect(() => {
+    fetch("http://localhost:5000/bookings")
+      .then((res) => res.json())
+      .then((data) => {
+        setbookings(data);
+      });
+  }, []);
+  
   console.log(rm);
 let [av,setav]=useState(availability);
 console.log(av);
@@ -117,6 +131,19 @@ console.log(av);
           });
 
     }
+  };
+
+  const StarRating = ({ rating }) => {
+    const stars = Array.from({ length: 5 }, (_, index) => (
+      <span
+        key={index}
+        className={`text-2xl ${index < rating ? 'text-yellow-500' : 'text-gray-300'}`}
+      >
+        ★
+      </span>
+    ));
+  
+    return <div className="flex ">{stars}</div>;
   };
 
   return (
@@ -228,6 +255,33 @@ console.log(av);
               </div>
             ))}
         </div>
+      </div>
+      <div className="bg-col0">
+      <h1 className="text-center font-bold text-5xl text-col5 py-12 bg-col0">
+          Customer Reviews
+        </h1>
+<div className="grid lg:grid-cols-3 grid-cols-1 w-4/5 gap-8 mx-auto pb-16">
+          {xs &&
+            xs?.map((i) => (
+              <div key={i._id} className="card w-full  shadow-xl">
+                <div className="p-4">
+                <h1>{i.comment}</h1>
+                </div>
+                <div className="mx-auto">
+                <StarRating rating={i.rating} />
+                </div>
+
+                <div>
+                    <h1 className="pl-4">{i.usr}</h1>
+                </div>
+                <div>
+                    <h1 className="text-right pr-4">{i.timestamp}</h1>
+                </div>
+        
+              </div>
+            ))}
+        </div>
+
       </div>
     </div>
   );
