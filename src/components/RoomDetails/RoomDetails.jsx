@@ -1,12 +1,13 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import { useLoaderData } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Swal from "sweetalert2";
 import { AuthCon } from "../Provider/AuthProv";
 const RoomDetails = () => {
+    
   const rm = useLoaderData();
   const [rooom, setroom] = useState(rm);
   const today = new Date();
@@ -51,9 +52,9 @@ const RoomDetails = () => {
       });
   }, []);
   
-  console.log(rm);
+  
 let [av,setav]=useState(availability);
-console.log(av);
+
   const isDateAlreadyBooked = (rom, seldDate) => {
     return (
       bookings &&
@@ -62,6 +63,8 @@ console.log(av);
   };
 
   const handleBookRoom = () => {
+
+    
     if (av > 0) {
       const pp = isDateAlreadyBooked(
         room,
@@ -87,7 +90,7 @@ console.log(av);
         bookings.push(datas);
         av--;
         availability=av;
-        console.log(av);
+        
         const newdata = {
           availability,
         };
@@ -194,14 +197,26 @@ console.log(av);
                 </div>
 
                 <div className="card-actions justify-center border-t-2">
-                  <button
-                    onClick={() =>
+
+                    {
+                        user ? <><button
+                    onClick={() => 
                       document.getElementById("my_modal_5").showModal()
                     }
                     className="rounded h-10 w-32 mt-2  text-lg font-bold bg-col5 text-col0 hover:text-col5 hover:bg-col0  "
                   >
                     Book
-                  </button>
+                  </button></> : <>
+                 <Link to="/login"> <button
+                    className="rounded h-10 w-32 mt-2  text-lg font-bold bg-col5 text-col0 hover:text-col5 hover:bg-col0  "
+                  >
+                    Book
+                  </button></Link>
+                  
+                  
+                  </>
+                    }
+                  
                   <dialog
                     id="my_modal_5"
                     className="modal text-black modal-bottom sm:modal-middle"
@@ -260,7 +275,8 @@ console.log(av);
       <h1 className="text-center font-bold text-5xl text-col5 py-12 bg-col0">
           Customer Reviews
         </h1>
-<div className="grid lg:grid-cols-3 grid-cols-1 w-4/5 gap-8 mx-auto pb-16">
+        {
+            xs.length ? (<div className="grid lg:grid-cols-3 grid-cols-1 w-4/5 gap-8 mx-auto pb-16">
           {xs &&
             xs?.map((i) => (
               <div key={i._id} className="card w-full  shadow-xl">
@@ -280,7 +296,16 @@ console.log(av);
         
               </div>
             ))}
-        </div>
+        </div>) : 
+        <>
+        
+        <h1 className="text-center font-bold text-3xl text-black py-12 bg-col0">
+          No Reviews
+        </h1>
+            
+        </>
+        }
+
 
       </div>
     </div>
