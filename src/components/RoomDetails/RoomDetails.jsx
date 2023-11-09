@@ -10,21 +10,23 @@ const RoomDetails = () => {
   const [rooom, setroom] = useState(rm);
   const today = new Date();
   const [selectedDate, setSelectedDate] = useState(today);
+
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
 
-  const [bookings,setbookings] = useState([])
+  const [bookings, setbookings] = useState([]);
 
-  useEffect(()=>{
-
-      fetch('http://localhost:5000/bookings')
-      .then(res=>res.json())
-      .then(data => setbookings(data))
-
-  },[])
+  useEffect(() => {
+    fetch("http://localhost:5000/bookings")
+      .then((res) => res.json())
+      .then((data) => {
+        setbookings(data);
+      });
+  }, []);
   const { user } = useContext(AuthCon);
-  const {
+  let {
+    _id,
     room,
     description,
     pricePerNight,
@@ -33,66 +35,85 @@ const RoomDetails = () => {
     mainImage,
     images,
     specialOffers,
-    shortdescription
+    shortdescription,
   } = rm;
- 
+  console.log(rm);
+let [av,setav]=useState(availability);
+console.log(av);
   const isDateAlreadyBooked = (rom, seldDate) => {
-    console.log(rom,seldDate);
-    console.log(typeof(bookings));
-    console.log(bookings.length);
-    return bookings && bookings?.some((g) => g.room === rom && g.bookingDate === seldDate);
+    return (
+      bookings &&
+      bookings?.some((g) => g.room === rom && g.bookingDate === seldDate)
+    );
   };
 
   const handleBookRoom = () => {
+    if (av > 0) {
+      const pp = isDateAlreadyBooked(
+        room,
+        selectedDate.toLocaleDateString("en-GB")
+      );
 
-    if(availability>0)
-    {
-        
-       const pp=isDateAlreadyBooked(room, selectedDate.toLocaleDateString('en-GB'));
-       console.log(pp);
-        if (pp) {
-            Swal.fire(
-                {
-                    icon: "error",
-                    text: "The Room is already booked in this date",
-                }
-              )
-        }
-        else{
-            const datas = {
-                email:user.email,
-                room:room,
-                bookingDate:selectedDate.toLocaleDateString('en-GB'),
-                price:pricePerNight
-            };
-            console.log(bookings);
-            bookings.push(datas);
-            // setbookings({...bookings,datas});
-            console.log(bookings);
-            fetch('http://localhost:5000/bookings', {
-                method: 'POST',
-                headers: {
-                  'content-type': 'application/json',
-                },
-                body: JSON.stringify(datas),
-              })
-              .then(res=>res.json())
-              .then(data=>
-                {
-                  
-                  if(data.insertedId)
-                  {
-                    Swal.fire(
-                      'Thank You for staying!',
-                      'Room has been booked',
-                      'success'
-                    )
-                  }
-                })
-        }
+      if (pp) {
+        Swal.fire({
+          icon: "error",
+          text: "The Room is already booked in this date",
+        });
+      } else {
+        const datas = {
+          email: user.email,
+          room: room,
+          bookingDate: selectedDate.toLocaleDateString("en-GB"),
+          price: pricePerNight,
+        };
+
+        bookings.push(datas);
+        av--;
+        availability=av;
+        console.log(av);
+        const newdata = {
+          availability,
+        };
+        console.log(newdata);
+        fetch(`http://localhost:5000/rooms/${_id}`, {
+          method: "PUT",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(newdata),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            setav(av);
+            setroom(data);
+          });
+
+        fetch("http://localhost:5000/bookings", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(datas),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.insertedId) {
+              Swal.fire(
+                "Thank You for staying!",
+                "Room has been booked",
+                "success"
+              );
+            }
+          });
+      }
     }
+    else{
+        Swal.fire({
+            icon: "error",
+            text: "This Room is not Available",
+          });
 
-   
+    }
   };
 
   return (
@@ -116,7 +137,7 @@ const RoomDetails = () => {
                 </p>
                 <p>
                   Available Rooms:{" "}
-                  <span className="font-bold">{availability}</span>
+                  <span className="font-bold">{av}</span>
                 </p>
                 <p>
                   Price per night:{" "}
@@ -139,7 +160,6 @@ const RoomDetails = () => {
                     selected={selectedDate}
                     minDate={today}
                     onChange={handleDateChange}
-    
                   />
                 </div>
 
@@ -148,7 +168,7 @@ const RoomDetails = () => {
                     onClick={() =>
                       document.getElementById("my_modal_5").showModal()
                     }
-                    className="    rounded h-10 w-32 mt-2  text-lg font-bold bg-col5 text-col0 hover:text-col5 hover:bg-col0  "
+                    className="rounded h-10 w-32 mt-2  text-lg font-bold bg-col5 text-col0 hover:text-col5 hover:bg-col0  "
                   >
                     Book
                   </button>
@@ -158,17 +178,22 @@ const RoomDetails = () => {
                   >
                     <div className="modal-box">
                       <h3 className="font-bold text-lg">{room}</h3>
-                      <h1>Date : {selectedDate.toLocaleDateString('en-GB')}</h1>
-                      <p className="py-4">
-                        {shortdescription}
-                      </p>
+                      <h1>Date : {selectedDate.toLocaleDateString("en-GB")}</h1>
+                      <p className="py-4">{shortdescription}</p>
                       <p className="font-bold">Price : {pricePerNight}$</p>
                       <div className="modal-action justify-center">
                         <form method="dialog">
                           {/* if there is a button in form, it will close the modal */}
-                          
-                          <button onClick={handleBookRoom} className="btn border border-col5 hover:border-col5 rounded h-10 w-32 mt-2 mr-4 text-lg font-bold bg-col5 text-col0 hover:text-col5 hover:bg-col0 ">Confirm</button>
-                          <button className="btn border border-col5 hover:border-col5  rounded h-10 w-32 mt-2  text-lg font-bold bg-col5 text-col0 hover:text-col5 hover:bg-col0 ">Cancel</button>
+
+                          <button
+                            onClick={handleBookRoom}
+                            className="btn border border-col5 hover:border-col5 rounded h-10 w-32 mt-2 mr-4 text-lg font-bold bg-col5 text-col0 hover:text-col5 hover:bg-col0 "
+                          >
+                            Confirm
+                          </button>
+                          <button className="btn border border-col5 hover:border-col5  rounded h-10 w-32 mt-2  text-lg font-bold bg-col5 text-col0 hover:text-col5 hover:bg-col0 ">
+                            Cancel
+                          </button>
                         </form>
                       </div>
                     </div>
@@ -180,6 +205,7 @@ const RoomDetails = () => {
           </div>
         </div>
       </div>
+
       <div className="bg-col0">
         <h1 className="text-center font-bold text-5xl text-col5 py-12 bg-col0">
           Discover Our Rooms Through Captivating Images
