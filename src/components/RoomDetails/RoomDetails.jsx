@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { useLoaderData } from "react-router-dom";
-import DatePicker from "react-datepicker";
 import { useContext, useEffect, useState } from "react";
+import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Swal from "sweetalert2";
 import { AuthCon } from "../Provider/AuthProv";

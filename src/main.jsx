@@ -16,6 +16,7 @@ import MyBookings from './components/MyBookings/MyBookings';
 import AuthProv from './components/Provider/AuthProv';
 import PrivateRoute from './Private/PrivateRoute';
 import RoomDetails from './components/RoomDetails/RoomDetails';
+import UpdateRoom from './components/UpdateRoom.jsx/UpdateRoom';
 
 const router = createBrowserRouter([
   {
@@ -37,6 +38,12 @@ const router = createBrowserRouter([
         path:"/rooms/:id",
         element:<RoomDetails></RoomDetails>,
         loader :({params})=>fetch(`http://localhost:5000/rooms/${params.id}`)
+
+      },
+      {
+        path:"/update/:id",
+        element:<PrivateRoute><UpdateRoom></UpdateRoom></PrivateRoute>,
+        loader :({params})=>fetch(`http://localhost:5000/update/${params.id}`)
 
       },
       {
