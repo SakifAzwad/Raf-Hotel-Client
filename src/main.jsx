@@ -41,7 +41,8 @@ const router = createBrowserRouter([
       },
       {
         path:"/mybookings",
-        element:<PrivateRoute><MyBookings></MyBookings></PrivateRoute>
+        element:<PrivateRoute><MyBookings></MyBookings></PrivateRoute>,
+        loader:()=>fetch('http://localhost:5000/bookings')
       },
       {
         path:"/aboutus",

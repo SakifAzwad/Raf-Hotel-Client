@@ -62,7 +62,10 @@ console.log(av);
       } else {
         const datas = {
           email: user.email,
+          roomID:_id,
+          availability:av,
           room: room,
+          mainImage:mainImage,
           bookingDate: selectedDate.toLocaleDateString("en-GB"),
           price: pricePerNight,
         };
