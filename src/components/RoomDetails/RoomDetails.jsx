@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { useLoaderData } from "react-router-dom";
 import DatePicker from "react-datepicker";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import Swal from "sweetalert2";
 import { AuthCon } from "../Provider/AuthProv";
@@ -13,6 +13,16 @@ const RoomDetails = () => {
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
+
+  const [bookings,setbookings] = useState([])
+
+  useEffect(()=>{
+
+      fetch('http://localhost:5000/bookings')
+      .then(res=>res.json())
+      .then(data => setbookings(data))
+
+  },[])
   const { user } = useContext(AuthCon);
   const {
     room,
@@ -25,36 +35,64 @@ const RoomDetails = () => {
     specialOffers,
     shortdescription
   } = rm;
-  
+ 
+  const isDateAlreadyBooked = (rom, seldDate) => {
+    console.log(rom,seldDate);
+    console.log(typeof(bookings));
+    console.log(bookings.length);
+    return bookings && bookings?.some((g) => g.room === rom && g.bookingDate === seldDate);
+  };
 
   const handleBookRoom = () => {
 
-    const datas = {
-        email:user.email,
-        room:room,
-        bookingDate:selectedDate.toLocaleDateString('en-GB'),
-        price:pricePerNight
-    };
-    fetch('http://localhost:5000/bookings', {
-        method: 'POST',
-        headers: {
-          'content-type': 'application/json',
-        },
-        body: JSON.stringify(datas),
-      })
-      .then(res=>res.json())
-      .then(data=>
-        {
-          console.log(data);
-          if(data.insertedId)
-          {
+    if(availability>0)
+    {
+        
+       const pp=isDateAlreadyBooked(room, selectedDate.toLocaleDateString('en-GB'));
+       console.log(pp);
+        if (pp) {
             Swal.fire(
-              'Good job!',
-              'Product Added to your Cart',
-              'success'
-            )
-          }
-        })
+                {
+                    icon: "error",
+                    text: "The Room is already booked in this date",
+                }
+              )
+        }
+        else{
+            const datas = {
+                email:user.email,
+                room:room,
+                bookingDate:selectedDate.toLocaleDateString('en-GB'),
+                price:pricePerNight
+            };
+            console.log(bookings);
+            bookings.push(datas);
+            // setbookings({...bookings,datas});
+            console.log(bookings);
+            fetch('http://localhost:5000/bookings', {
+                method: 'POST',
+                headers: {
+                  'content-type': 'application/json',
+                },
+                body: JSON.stringify(datas),
+              })
+              .then(res=>res.json())
+              .then(data=>
+                {
+                  
+                  if(data.insertedId)
+                  {
+                    Swal.fire(
+                      'Thank You for staying!',
+                      'Room has been booked',
+                      'success'
+                    )
+                  }
+                })
+        }
+    }
+
+   
   };
 
   return (
