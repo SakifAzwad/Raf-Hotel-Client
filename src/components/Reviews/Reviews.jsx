@@ -84,7 +84,7 @@ const Reviews = () => {
     activeColor="#ffd700"
   />
    </div>
-   <button onClick={handleReviewSubmit} className=" btn btn-primary ">Submit</button>
+   <button onClick={handleReviewSubmit} className=" btn border border-col5 hover:border-col5 rounded h-10 w-32 mt-2 mr-4 text-lg font-bold bg-col5 text-col0 hover:text-col5 hover:bg-col0  ">Submit</button>
    </div>
   </div>
 </div>
